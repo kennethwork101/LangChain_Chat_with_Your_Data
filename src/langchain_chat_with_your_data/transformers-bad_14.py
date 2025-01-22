@@ -1,17 +1,19 @@
-""" 
+"""
 >>>-error<<<: 2 validation errors for LLMChain
 """
+
 import argparse
 
 import transformers
 from kwwutils import clock, execute, get_documents_by_path, get_vectordb, printit
-from langchain.chains import ConversationalRetrievalChain, RetrievalQA
+from langchain.chains import ConversationalRetrievalChain
 from langchain.chains.question_answering import load_qa_chain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
-from transformers import AutoTokenizer, pipeline
+from transformers import AutoTokenizer
 
 _path = "../../"
+
 
 @clock
 @execute
@@ -24,13 +26,16 @@ def main(options):
     Question: {question}
     Helpful Answer:
     """
-    prompt = PromptTemplate(input_variables=["context", "question"], template=template,)
+    prompt = PromptTemplate(
+        input_variables=["context", "question"],
+        template=template,
+    )
     print(f"prompt: {prompt}")
     """
     model = options['model']
     embeddings = get_embeddings(options)
     """
-    model_name = 'Intel/neural-chat-7b-v3-1'
+    model_name = "Intel/neural-chat-7b-v3-1"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = transformers.AutoModelForCausalLM.from_pretrained(model_name)
     model.save_pretrained("my_model")
@@ -41,8 +46,7 @@ def main(options):
     response = model.generate(question)
     printit(f"111 question {question}", response)
 
-    
-    ''' 
+    """ 
     qa_chain = RetrievalQA.from_chain_type(
         llm, 
         retriever=vectordb.as_retriever(), 
@@ -52,7 +56,7 @@ def main(options):
     printit("111 qa_chain", qa_chain)
     response = qa_chain({"query": question})
     printit(question, response)
-    '''
+    """
 
 
 def use_conversation_retrievel(llm, prompt, vectordb, question, memory):
@@ -64,9 +68,7 @@ def use_conversation_retrievel(llm, prompt, vectordb, question, memory):
     memory_fn = memory_maps[memory]
     memory = memory_fn(memory_key="chat_history", return_messages=True)
     qa_chain = ConversationalRetrievalChain.from_llm(
-        llm,
-        retriever=retriever,
-        memory=memory
+        llm, retriever=retriever, memory=memory
     )
     result = qa_chain({"question": question})
     print(f"222 conversation result: {result}")
@@ -82,7 +84,9 @@ def use_load_qa_chain(llm):
     Question: {question}
     Relevant text, if any:
     """
-    QUESTION_PROMPT = PromptTemplate(template=question_prompt_template, input_variables=["context", "question"])
+    QUESTION_PROMPT = PromptTemplate(
+        template=question_prompt_template, input_variables=["context", "question"]
+    )
 
     combine_prompt_template = """
     Given the following extracted parts of a long document and a question, 
@@ -95,36 +99,54 @@ def use_load_qa_chain(llm):
     =========
     Answer in the original language of the question but answer with at most 1 sentences:
     """
-    
-    COMBINE_PROMPT = PromptTemplate(template=combine_prompt_template, input_variables=["summaries", "question"])
+
+    COMBINE_PROMPT = PromptTemplate(
+        template=combine_prompt_template, input_variables=["summaries", "question"]
+    )
     docs = None
     path = "../../data/data_small/"
     docs = get_documents_by_path(path)
     print(f"XXX docs type {type(docs[0])}")
     query = "Is probability a class topic?"
     query = "Find info about automation or Python"
-    qa_chain = load_qa_chain(llm, 
-                       chain_type="map_reduce", 
-                       question_prompt=QUESTION_PROMPT, 
-                       combine_prompt=COMBINE_PROMPT)
-    result = qa_chain({"input_documents": docs, "question": query}, return_only_outputs=True)
+    qa_chain = load_qa_chain(
+        llm,
+        chain_type="map_reduce",
+        question_prompt=QUESTION_PROMPT,
+        combine_prompt=COMBINE_PROMPT,
+    )
+    result = qa_chain(
+        {"input_documents": docs, "question": query}, return_only_outputs=True
+    )
     return result
 
 
 def Options():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--persist_directory', type=str, help='persist_directory', default=f'{_path}mydb/data_all/')
-    parser.add_argument('--embedding', type=str, help='embedding: chroma gpt4all huggingface', default='huggingface')
-    parser.add_argument('--embedmodel', type=str, help='embedding: ', default='all-MiniLM-L6-v2')
-    parser.add_argument('--temperature', type=float, help='temperature', default=0.1)
-    parser.add_argument('--repeatcnt', type=int, help='repeatcnt', default=1)
-    parser.add_argument('--model', type=str, help='model', default="llama2")
+    parser.add_argument(
+        "--persist_directory",
+        type=str,
+        help="persist_directory",
+        default=f"{_path}mydb/data_all/",
+    )
+    parser.add_argument(
+        "--embedding",
+        type=str,
+        help="embedding: chroma gpt4all huggingface",
+        default="huggingface",
+    )
+    parser.add_argument(
+        "--embedmodel", type=str, help="embedding: ", default="all-MiniLM-L6-v2"
+    )
+    parser.add_argument("--temperature", type=float, help="temperature", default=0.1)
+    parser.add_argument("--repeatcnt", type=int, help="repeatcnt", default=1)
+    parser.add_argument("--model", type=str, help="model", default="llama2")
     """
     parser.add_argument('--model', type=str, help='model')
     """
     return vars(parser.parse_args())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     options = Options()
     main(**options)

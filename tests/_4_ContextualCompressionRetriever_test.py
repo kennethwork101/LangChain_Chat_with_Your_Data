@@ -18,7 +18,7 @@ def test_func(options, model, chain_type):
     response = main(**options)
     printit("response", response)
     printit("question", options["question"])
-    sources = [r.metadata['source'] for r in response]
+    sources = [r.metadata["source"] for r in response]
     checks = all([s.endswith("result.txt") for s in sources])
     printit("checks", checks)
     assert checks

@@ -5,8 +5,8 @@ from uvprog2025.LangChain_Chat_with_Your_Data.src.langchain_chat_with_your_data.
 )
 
 
-#@pytest.mark.parametrize("chain_type", ["stuff", "map_reduce", "map_rerank", "refine"])
-#@pytest.mark.parametrize("chain_type", ["stuff", "map_reduce"])
+# @pytest.mark.parametrize("chain_type", ["stuff", "map_reduce", "map_rerank", "refine"])
+# @pytest.mark.parametrize("chain_type", ["stuff", "map_reduce"])
 @pytest.mark.skip
 @pytest.mark.parametrize("chain_type", ["stuff"])
 @clock

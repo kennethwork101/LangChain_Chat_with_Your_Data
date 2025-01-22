@@ -16,4 +16,4 @@ def test_func(options, model):
     printit("question", options["question"])
     printit("response len", len(response))
     printit("response metadata", response[0].metadata)
-    assert response[-1].metadata['source'].endswith('result.txt')
+    assert response[-1].metadata["source"].endswith("result.txt")

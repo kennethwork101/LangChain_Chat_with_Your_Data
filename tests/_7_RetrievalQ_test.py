@@ -20,7 +20,7 @@ def test_func(options, model, chain_type):
     printit(f"{model} {chain_type} response type", type(response))
     printit(f"{model} {chain_type} response['result']", response["result"])
     printit(f"{model} {chain_type} question", options["question"])
-    sources = [r.metadata['source'] for r in response["source_documents"]]
+    sources = [r.metadata["source"] for r in response["source_documents"]]
     checks = all([s.endswith("result.txt") for s in sources])
     printit("sources", sources)
     printit("checks", checks)

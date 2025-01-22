@@ -14,6 +14,8 @@ def test_func(options, model):
     options["model"] = model
     options["question"] = "What did they say about fossil fuel projects?"
     results = main(**options)
-    result = [(model, embedding, vectordb_cnt, len(docs["documents"]) == vectordb_cnt) 
-              for model, docs, vectordb_cnt, embedding in results] 
+    result = [
+        (model, embedding, vectordb_cnt, len(docs["documents"]) == vectordb_cnt)
+        for model, docs, vectordb_cnt, embedding in results
+    ]
     printit("result", result)

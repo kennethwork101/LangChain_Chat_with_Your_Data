@@ -19,7 +19,7 @@ def test_a(options, few_models_arg):
     printit("question", options["question"])
     printit("response len", len(response))
     printit("response metadata", response[0].metadata)
-    assert response[-1].metadata['source'].endswith('machinelearning-lecture01.pdf')
+    assert response[-1].metadata["source"].endswith("machinelearning-lecture01.pdf")
 
 
 @pytest.mark.slow
@@ -35,4 +35,4 @@ def test_b(options, all_models_arg):
     printit("question", options["question"])
     printit("response len", len(response))
     printit("response metadata", response[0].metadata)
-    assert response[-1].metadata['source'].endswith('machinelearning-lecture01.pdf')
+    assert response[-1].metadata["source"].endswith("machinelearning-lecture01.pdf")

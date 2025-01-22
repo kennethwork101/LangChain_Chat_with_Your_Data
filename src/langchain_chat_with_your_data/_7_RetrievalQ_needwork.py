@@ -33,7 +33,7 @@ def main(options):
             chain_type=chain_type,
             retriever=vectordb.as_retriever(),
             return_source_documents=True,
-            chain_type_kwargs={"prompt": prompt}
+            chain_type_kwargs={"prompt": prompt},
         )
     else:
         # Not working other than with chain_type as stuff
@@ -54,46 +54,73 @@ def main(options):
 
 def Options():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--chain_types', nargs='+', default=[
-        "stuff",            
-    ])
-    parser.add_argument('--persist_directory', type=str, help='persist_directory', default=f'{_path}mydb/data_all/')
-    parser.add_argument('--embedding', type=str, help='embedding: chroma gpt4all huggingface', default='chroma')
-    parser.add_argument('--embedmodel', type=str, help='embedding: ', default='all-MiniLM-L6-v2')
-    parser.add_argument('--llm_type', type=str, help='llm_type: chat or llm', default='llm')
-    parser.add_argument('--chain_type', type=str, help='chain_type', default='stuff')
-    parser.add_argument('--question', type=str, help='question', default='What did they say about matlab?')
-    parser.add_argument('--repeatcnt', type=int, help='repeatcnt', default=1)
-    parser.add_argument('--temperature', type=float, help='temperature', default=0.1)
-    parser.add_argument('--model', type=str, help='model', default="llama2")
+    parser.add_argument(
+        "--chain_types",
+        nargs="+",
+        default=[
+            "stuff",
+        ],
+    )
+    parser.add_argument(
+        "--persist_directory",
+        type=str,
+        help="persist_directory",
+        default=f"{_path}mydb/data_all/",
+    )
+    parser.add_argument(
+        "--embedding",
+        type=str,
+        help="embedding: chroma gpt4all huggingface",
+        default="chroma",
+    )
+    parser.add_argument(
+        "--embedmodel", type=str, help="embedding: ", default="all-MiniLM-L6-v2"
+    )
+    parser.add_argument(
+        "--llm_type", type=str, help="llm_type: chat or llm", default="llm"
+    )
+    parser.add_argument("--chain_type", type=str, help="chain_type", default="stuff")
+    parser.add_argument(
+        "--question",
+        type=str,
+        help="question",
+        default="What did they say about matlab?",
+    )
+    parser.add_argument("--repeatcnt", type=int, help="repeatcnt", default=1)
+    parser.add_argument("--temperature", type=float, help="temperature", default=0.1)
+    parser.add_argument("--model", type=str, help="model", default="llama2")
     """
     parser.add_argument('--model', type=str, help='model')
     """
-    parser.add_argument('--models', nargs='+', default=[
-        "codellama:7b",        
-#       "codellama:7b-python",        
-        "codellama:13b",        
-#       "codellama:13b-python",        
-        "codellama:34b",        
-#       "codellama:34b-python",        
-        "llama2:latest",           
-        "llama2-uncensored:latest",           
-        "medllama2:latest",        
-        "medllama2:latest",        
-        "mistral:instruct",        
-        "mistrallite:latest",      
-        "openchat:latest",         
-        "orca-mini:latest",        
-        "phi:latest",        
-        "vicuna:latest",           
-        "wizardcoder:latest",
-        "wizardlm-uncensored:latest",        
-#       "yarn-llama2:latest",        
-        "yarn-mistral:latest",        
-    ])
+    parser.add_argument(
+        "--models",
+        nargs="+",
+        default=[
+            "codellama:7b",
+            #       "codellama:7b-python",
+            "codellama:13b",
+            #       "codellama:13b-python",
+            "codellama:34b",
+            #       "codellama:34b-python",
+            "llama2:latest",
+            "llama2-uncensored:latest",
+            "medllama2:latest",
+            "medllama2:latest",
+            "mistral:instruct",
+            "mistrallite:latest",
+            "openchat:latest",
+            "orca-mini:latest",
+            "phi:latest",
+            "vicuna:latest",
+            "wizardcoder:latest",
+            "wizardlm-uncensored:latest",
+            #       "yarn-llama2:latest",
+            "yarn-mistral:latest",
+        ],
+    )
     return vars(parser.parse_args())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     options = Options()
     main(**options)
