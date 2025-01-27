@@ -3,11 +3,12 @@ name = "langchain-chat-with-your-data"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
     "chromadb>=0.5.20",
     "kwwutils>=0.1.15",
     "langchain>=0.3.14",
+    "lark>=1.2.2",
     "pypdf>=5.1.0",
     "sentence-transformers>=3.3.1",
     "tf-keras>=2.18.0",

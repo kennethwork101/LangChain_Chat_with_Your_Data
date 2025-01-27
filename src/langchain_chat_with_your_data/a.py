@@ -1,5 +1,6 @@
-from googleapiclient.discovery import build
 import os
+
+from googleapiclient.discovery import build
 
 api_key = os.environ[
     "YOUTUBE_API_KEY"

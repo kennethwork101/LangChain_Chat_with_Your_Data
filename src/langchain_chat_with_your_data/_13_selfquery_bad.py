@@ -10,10 +10,8 @@ from langchain.chains.query_constructor.base import (
     get_query_constructor_prompt,
 )
 from langchain.prompts import PromptTemplate
-
-# from langchain.retrievers.self_query import ChromaTranslator
 from langchain.retrievers.self_query.base import SelfQueryRetriever
-from langchain.retrievers.self_query.chroma import ChromaTranslator
+from langchain_community.query_constructors.chroma import ChromaTranslator
 
 _path = "../../"
 
